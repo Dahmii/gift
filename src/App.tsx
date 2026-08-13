@@ -15,7 +15,7 @@ import cmbImg4 from '@/imports/CMB4.jpg'
 import cmbImg5 from '@/imports/CMB5.jpg'
 import cmbImg6 from '@/imports/CMB6.jpg'
 import marieImg1 from '@/imports/marie1.jpeg'
-import marieImg2 from '@/imports/marie2.jpg'
+import marieImg2 from '@/imports/marie2.JPG'
 import marieImg3 from '@/imports/marie3.jpeg'
 // ─── Scroll animation hook ───────────────────────────────────────────────────
 function useScrollReveal() {
