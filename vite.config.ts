@@ -7,20 +7,14 @@ import siteConfiguration from './.figma/make/site.json'
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
   const emitSourcemaps = mode === 'development'
 
   return {
-    // FIX 1: Allow relative asset base URLs for production previews and live deployments
-    base: process.env.FIGMA_PUBLIC_URL ? `${process.env.FIGMA_PUBLIC_URL}/` : './',
-    
-    // FIX 2: Explicitly include upper-case image and document extensions in asset pipeline
-    assetsInclude: ['**/*.JPG', '**/*.jpg', '**/*.jpeg', '**/*.JPG', '**/*.PNG', '**/*.png', '**/*.pdf'],
-    
+    // Vercel routes from root domain '/'
+    base: '/',
     build: {
       sourcemap: emitSourcemaps ? 'inline' : false,
       minify: !emitSourcemaps,
-      assetsInlineLimit: 4096, // Inline very small images as base64 data URIs
     },
     plugins: [
       react(),
