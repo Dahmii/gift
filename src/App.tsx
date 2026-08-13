@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import oyinFace from '/public/image.png'
+import oyinFace from '@/imports/oyin_face.png'
 import kfcPdf from '@/imports/KFC.pdf'
 import famePdf from '@/imports/Welcome-to-Fame-PR-Campaign-Proposal.pdf'
 import cvPdf from '@/imports/Gift_Oyindamola_Animashaun__2_.pdf'
