@@ -330,7 +330,7 @@ function Hero() {
         }}
       >
         <img
-          src={typeof oyinFace === 'string' ? oyinFace : (oyinFace as any)?.default}
+          src="/image.png"
           alt="Gift Oyindamola Animashaun"
           style={{
             width: '100%',
