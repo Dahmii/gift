@@ -209,7 +209,7 @@ function Hero() {
         }}
       >
         <img
-          src="/src/imports/image.png"
+          src={oyinFace}
           alt="Gift Oyindamola Animashaun"
           style={{
             width: '100%',
