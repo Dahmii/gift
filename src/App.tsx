@@ -330,7 +330,7 @@ function Hero() {
         }}
       >
         <img
-          src={oyinFace}
+          src={new URL('./imports/image.png', import.meta.url).href}
           alt="Gift Oyindamola Animashaun"
           style={{
             width: '100%',
