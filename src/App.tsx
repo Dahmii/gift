@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import oyinFace from '@/imports/image.png'
 import kfcPdf from '@/imports/KFC.pdf'
 import famePdf from '@/imports/Welcome-to-Fame-PR-Campaign-Proposal.pdf'
@@ -17,6 +17,7 @@ import cmbImg6 from '@/imports/CMB6.jpg'
 import marieImg1 from '@/imports/marie1.jpeg'
 import marieImg2 from '@/imports/marie2.JPG'
 import marieImg3 from '@/imports/marie3.jpeg'
+
 // ─── Scroll animation hook ───────────────────────────────────────────────────
 function useScrollReveal() {
   useEffect(() => {
@@ -35,6 +36,121 @@ function useScrollReveal() {
     targets.forEach((t) => io.observe(t))
     return () => io.disconnect()
   }, [])
+}
+
+// ─── Global Styles & Keyframes Injector ─────────────────────────────────────
+function GlobalStyles() {
+  return (
+    <style>{`
+      /* Reveal animations */
+      .fade-up, .fade-in, .slide-left, .slide-right {
+        opacity: 0;
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+      .fade-up { transform: translateY(30px); }
+      .fade-in { transform: scale(0.98); }
+      .slide-left { transform: translateX(-30px); }
+      .slide-right { transform: translateX(30px); }
+
+      .visible {
+        opacity: 1 !important;
+        transform: translate(0) scale(1) !important;
+      }
+
+      .delay-1 { transition-delay: 0.1s; }
+      .delay-2 { transition-delay: 0.2s; }
+      .delay-3 { transition-delay: 0.3s; }
+      .delay-4 { transition-delay: 0.4s; }
+
+      /* Marquee Keyframes */
+      @keyframes marquee {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-50%); }
+      }
+      .marquee-track {
+        animation: marquee 25s linear infinite;
+      }
+      .marquee-track:hover {
+        animation-play-state: paused;
+      }
+
+      /* Buttons & Interactive Elements */
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #1a1815;
+        color: #f5f0e8;
+        padding: 14px 28px;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 1px solid #1a1815;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s, border-color 0.3s;
+      }
+      .btn-primary:hover {
+        background: #c4623a;
+        border-color: #c4623a;
+        color: #fff;
+      }
+
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        color: #1a1815;
+        padding: 14px 28px;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 1px solid #1a1815;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+      }
+      .btn-outline:hover {
+        background: #1a1815;
+        color: #f5f0e8;
+      }
+
+      .nav-link {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 400;
+        font-size: 0.85rem;
+        color: #1a1815;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.2s;
+      }
+      .nav-link:hover {
+        color: #c4623a;
+      }
+
+      .section-label {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 500;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #c4623a;
+      }
+
+      .stat-number {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.2rem, 3.5vw, 3rem);
+        color: #1a1815;
+        line-height: 1;
+      }
+    `}</style>
+  )
 }
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
@@ -102,6 +218,9 @@ function Nav() {
           {links.map((l) => (
             <a key={l} href={`#${l.toLowerCase()}`} className="nav-link" onClick={() => setOpen(false)} style={{ fontSize: '1rem', letterSpacing: '0.05em' }}>{l}</a>
           ))}
+          <a href="mailto:Oyinash33@gmail.com" className="btn-primary" onClick={() => setOpen(false)} style={{ textAlign: 'center', justifyContent: 'center' }}>
+            Hire Me
+          </a>
         </div>
       )}
 
@@ -145,7 +264,7 @@ function Hero() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',
-          padding: 'clamp(80px, 8vw, 120px) clamp(24px, 5vw, 80px) clamp(60px, 6vw, 80px)',
+          padding: 'clamp(100px, 10vw, 120px) clamp(24px, 5vw, 80px) clamp(60px, 6vw, 80px)',
           position: 'relative',
           zIndex: 2,
         }}
@@ -206,6 +325,7 @@ function Hero() {
           position: 'relative',
           overflow: 'hidden',
           background: '#2a2420',
+          minHeight: '400px',
         }}
       >
         <img
@@ -219,7 +339,7 @@ function Hero() {
             transform: `scale(1.06) translate(${(mousePos.x - 0.5) * -12}px, ${(mousePos.y - 0.5) * -12}px)`,
             transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
-        />
+        />  
         {/* Overlay gradient */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(245,240,232,0.3) 0%, transparent 30%)' }} />
 
@@ -244,7 +364,7 @@ function Hero() {
       <style>{`
         @media (max-width: 768px) {
           section#top { grid-template-columns: 1fr; }
-          section#top > div:last-child { height: 50vh; }
+          section#top > div:last-child { min-height: 50vh; }
         }
       `}</style>
     </section>
@@ -362,7 +482,7 @@ function Background() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'clamp(16px, 2vw, 32px)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'clamp(16px, 2vw, 32px)' }} className="background-grid">
           {creds.map((c, i) => (
             <div
               key={c.school}
@@ -416,7 +536,7 @@ function Background() {
 
       <style>{`
         @media (max-width: 768px) {
-          #background > div > div:last-child { grid-template-columns: 1fr; }
+          .background-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
@@ -520,7 +640,7 @@ function Focus() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'clamp(16px, 2vw, 28px)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'clamp(16px, 2vw, 28px)' }} className="focus-grid">
           {cards.map((c, i) => (
             <div
               key={c.title}
@@ -544,7 +664,7 @@ function Focus() {
 
       <style>{`
         @media (max-width: 900px) {
-          #focus > div > div:last-child { grid-template-columns: 1fr; }
+          .focus-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
@@ -624,6 +744,107 @@ function PdfModal({ url, title, onClose }: { url: string; title: string; onClose
   )
 }
 
+// ─── Image Carousel Subcomponent ─────────────────────────────────────────────
+function ProjectImageCarousel({ images, expanded }: { images: any[]; expanded: boolean }) {
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  if (!images || images.length === 0) return null
+
+  const nextImg = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveIdx((prev) => (prev + 1) % images.length)
+  }
+
+  const prevImg = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveIdx((prev) => (prev - 1 + images.length) % images.length)
+  }
+
+  const currentImg = images[activeIdx]
+  const imgSrc = typeof currentImg === 'string' ? currentImg : currentImg?.src
+  const imgAlt = currentImg?.alt || ''
+
+  return (
+    <div style={{ position: 'relative', overflow: 'hidden', background: '#e8e4dc', aspectRatio: '16/9', width: '100%' }}>
+      <img
+        src={imgSrc}
+        alt={imgAlt}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
+          transform: expanded ? 'scale(1.03)' : 'scale(1)',
+        }}
+      />
+
+      {/* Navigation Arrows */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={prevImg}
+            aria-label="Previous image"
+            style={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'rgba(26, 24, 21, 0.6)',
+              color: '#f5f0e8',
+              border: 'none',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            ‹
+          </button>
+          <button
+            onClick={nextImg}
+            aria-label="Next image"
+            style={{
+              position: 'absolute',
+              right: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'rgba(26, 24, 21, 0.6)',
+              color: '#f5f0e8',
+              border: 'none',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            ›
+          </button>
+          
+          {/* Counter pill */}
+          <span style={{
+            position: 'absolute',
+            bottom: '12px',
+            right: '12px',
+            background: 'rgba(26, 24, 21, 0.75)',
+            color: '#f5f0e8',
+            fontSize: '0.65rem',
+            padding: '3px 8px',
+            fontFamily: "'Outfit', sans-serif"
+          }}>
+            {activeIdx + 1} / {images.length}
+          </span>
+        </>
+      )}
+    </div>
+  )
+}
+
 // ─── Projects ────────────────────────────────────────────────────────────────
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All')
@@ -631,22 +852,19 @@ function Projects() {
   const projects = [
     {
       num: '01',
-      title: 'KFC Finger Lickin\' Festivities',
+      title: "KFC Finger Lickin' Festivities",
       year: '2024',
       category: 'Strategy & Campaign',
       client: 'KFC',
-      desc: 'Collaborated with the Data Marketing Association (DMA)...',
+      desc: 'Collaborated with the Data Marketing Association (DMA) to design a digital-first campaign driving app adoption and festive customer engagement.',
       metric: null,
       metricLabel: null,
       tags: ['Campaign Strategy', 'App Marketing', 'DMA Challenge'],
-        
-        // Replace single `img` with an array of images
       images: [
-      { src: kfcImg1, alt: 'KFC storefront campaign' },
-      { src: kfcImg2, alt: 'KFC app interface banner' },
-      { src: kfcImg3, alt: 'KFC social media campaign' },
+        { src: kfcImg1, alt: 'KFC storefront campaign' },
+        { src: kfcImg2, alt: 'KFC app interface banner' },
+        { src: kfcImg3, alt: 'KFC social media campaign' },
       ],
-        
       accent: '#e4002b',
       link: kfcPdf,
       linkLabel: 'See full campaign',
@@ -664,10 +882,9 @@ function Projects() {
       metricLabel: 'New App Sign-ups',
       tags: ['Influencer Marketing', 'PR Packages', 'User Acquisition'],
       images: [
-      { src: fameImg1, alt: 'Fame App onboarding campaign' },
-      { src: fameImg2, alt: 'Fame App influencer collaboration' },
+        { src: fameImg1, alt: 'Fame App onboarding campaign' },
+        { src: fameImg2, alt: 'Fame App influencer collaboration' },
       ],
-      imgAlt: 'Luxury PR package unboxing',
       accent: '#c9a84c',
       link: famePdf,
       linkLabel: 'See full campaign',
@@ -685,14 +902,13 @@ function Projects() {
       metricLabel: 'Boost in Home-ownership Inquiries',
       tags: ['Lead Generation', 'Brand Awareness', 'Social Media'],
       images: [
-      { src: cmbImg1, alt: 'Cooperative Mortgage Bank social media ad' },
-      { src: cmbImg2, alt: 'Cooperative Mortgage Bank email campaign' },
-      { src: cmbImg3, alt: 'Cooperative Mortgage Bank landing page' },
-      { src: cmbImg4, alt: 'Cooperative Mortgage Bank promotional video' },
-      { src: cmbImg5, alt: 'Cooperative Mortgage Bank customer testimonial' },
-      {src: cmbImg6, alt: 'Cooperative Mortgage Bank infographic' },
+        { src: cmbImg1, alt: 'Cooperative Mortgage Bank social media ad' },
+        { src: cmbImg2, alt: 'Cooperative Mortgage Bank email campaign' },
+        { src: cmbImg3, alt: 'Cooperative Mortgage Bank landing page' },
+        { src: cmbImg4, alt: 'Cooperative Mortgage Bank promotional video' },
+        { src: cmbImg5, alt: 'Cooperative Mortgage Bank customer testimonial' },
+        { src: cmbImg6, alt: 'Cooperative Mortgage Bank infographic' },
       ],
-      imgAlt: 'Home ownership real estate',
       accent: '#2e7d32',
       link: '#',
       linkLabel: 'See full campaign',
@@ -709,8 +925,9 @@ function Projects() {
       metric: '60%',
       metricLabel: 'Rise in Digital Engagement',
       tags: ['Creative Direction', 'Copywriting', 'Brand Campaign'],
-      img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop&auto=format&sat=-30',
-      imgAlt: 'Aspirational home campaign visual',
+      images: [
+        { src: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop&auto=format&sat=-30', alt: 'Aspirational home campaign visual' }
+      ],
       accent: '#5c6bc0',
       link: '#',
       linkLabel: 'Watch the ad',
@@ -728,11 +945,10 @@ function Projects() {
       metricLabel: null,
       tags: ['Editorial Writing', 'Travel', 'Published Feature'],
       images: [
-      { src: marieImg1, alt: 'Africa travel editorial' },
-      { src: marieImg2, alt: 'Marie Claire travel feature' },
-      { src: marieImg3, alt: 'Exploring African destinations' },
+        { src: marieImg1, alt: 'Africa travel editorial' },
+        { src: marieImg2, alt: 'Marie Claire travel feature' },
+        { src: marieImg3, alt: 'Exploring African destinations' },
       ],
-      imgAlt: 'Africa travel editorial',
       accent: '#c4623a',
       link: 'https://marieclaire.ng/beyond-imagination-benin-republic/',
       linkLabel: 'Read the article',
@@ -744,17 +960,16 @@ function Projects() {
       title: 'Independent Travel Publication',
       year: '2023',
       category: 'Coming Soon',
-      client: '',
-      desc: 'I am currently building an independent travel publication that explores travel as a lens for understanding identity, creativity, belonging, and culture. Its first editorial project, Women Who Wander, is a narrative-led exploration of contemporary womanhood through travel. Through personal stories and cultural reflections, the project examines how women navigate both the world and themselves within it—moving beyond destination-focused content toward storytelling that is immersive, emotional, and meaningful.',
+      client: 'Self-Initiated',
+      desc: 'Building an independent travel publication exploring travel as a lens for understanding identity, creativity, belonging, and culture. Its first editorial project, Women Who Wander, is a narrative-led exploration of contemporary womanhood through travel.',
       metric: null,
       metricLabel: null,
       tags: ['Editorial Writing', 'Travel', 'Published Feature'],
       images: [
-      { src: marieImg1, alt: 'Africa travel editorial' },
-      { src: marieImg2, alt: 'Marie Claire travel feature' },
-      { src: marieImg3, alt: 'Exploring African destinations' },
+        { src: marieImg1, alt: 'Africa travel editorial' },
+        { src: marieImg2, alt: 'Marie Claire travel feature' },
+        { src: marieImg3, alt: 'Exploring African destinations' },
       ],
-      imgAlt: 'Africa travel editorial',
       accent: '#c4623a',
       link: 'https://marieclaire.ng/beyond-imagination-benin-republic/',
       linkLabel: 'Read the article',
@@ -822,6 +1037,8 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
   const [hovered, setHovered] = useState(false)
   const [pdfOpen, setPdfOpen] = useState(false)
 
+  const imageList = p.images || (p.img ? [{ src: p.img, alt: p.imgAlt }] : [])
+
   return (
     <div
       className={`fade-up delay-${(i % 3) + 1}`}
@@ -836,12 +1053,13 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
       {/* Collapsed row */}
       <button
         onClick={() => setExpanded(!expanded)}
+        className="project-row-button"
         style={{
           width: '100%',
           display: 'grid',
-          gridTemplateColumns: '60px 1fr auto auto',
+          gridTemplateColumns: '40px 1fr auto auto',
           alignItems: 'center',
-          gap: 'clamp(16px, 3vw, 40px)',
+          gap: 'clamp(12px, 2vw, 40px)',
           padding: 'clamp(20px, 2.5vw, 28px) 0',
           background: 'none',
           border: 'none',
@@ -895,113 +1113,21 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
       {/* Expanded panel */}
       <div style={{
         overflow: 'hidden',
-        maxHeight: expanded ? 600 : 0,
+        maxHeight: expanded ? 1200 : 0,
         transition: 'max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
       }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 'clamp(24px, 4vw, 64px)',
-          paddingBottom: 40,
-          paddingTop: 8,
-        }}>
+        <div 
+          className="project-expand-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 'clamp(24px, 4vw, 64px)',
+            paddingBottom: 40,
+            paddingTop: 8,
+          }}
+        >
           {/* Image Carousel */}
-{(() => {
-  const imageList = p.images || (p.img ? [{ src: p.img, alt: p.imgAlt }] : []);
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  const nextImg = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setActiveIdx((prev) => (prev + 1) % imageList.length);
-  };
-
-  const prevImg = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setActiveIdx((prev) => (prev - 1 + imageList.length) % imageList.length);
-  };
-
-  const currentImg = imageList[activeIdx];
-  const imgSrc = typeof currentImg === 'string' ? currentImg : currentImg?.src;
-  const imgAlt = currentImg?.alt || p.imgAlt;
-
-  return (
-    <div style={{ position: 'relative', overflow: 'hidden', background: '#e8e4dc', aspectRatio: '16/9' }}>
-      <img
-        src={imgSrc}
-        alt={imgAlt}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-          transform: expanded ? 'scale(1.03)' : 'scale(1)',
-        }}
-      />
-
-      {/* Navigation Arrows (Only rendered if >1 image) */}
-      {imageList.length > 1 && (
-        <>
-          <button
-            onClick={prevImg}
-            style={{
-              position: 'absolute',
-              left: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(26, 24, 21, 0.6)',
-              color: '#f5f0e8',
-              border: 'none',
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            ‹
-          </button>
-          <button
-            onClick={nextImg}
-            style={{
-              position: 'absolute',
-              right: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(26, 24, 21, 0.6)',
-              color: '#f5f0e8',
-              border: 'none',
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            ›
-          </button>
-          
-          {/* Counter pill */}
-          <span style={{
-            position: 'absolute',
-            bottom: '12px',
-            right: '12px',
-            background: 'rgba(26, 24, 21, 0.75)',
-            color: '#f5f0e8',
-            fontSize: '0.65rem',
-            padding: '3px 8px',
-            fontFamily: "'Outfit', sans-serif"
-          }}>
-            {activeIdx + 1} / {imageList.length}
-          </span>
-        </>
-      )}
-    </div>
-  );
-})()}
+          <ProjectImageCarousel images={imageList} expanded={expanded} />
 
           {/* Details */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -1043,12 +1169,15 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
             {pdfOpen && <PdfModal url={p.link} title={p.title} onClose={() => setPdfOpen(false)} />}
           </div>
         </div>
-        <style>{`
-          @media (max-width: 768px) {
-            .project-expand-grid { grid-template-columns: 1fr !important; }
-          }
-        `}</style>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .project-expand-grid { grid-template-columns: 1fr !important; }
+          .project-row-button { grid-template-columns: 30px 1fr auto !important; }
+          .project-row-button > span:nth-child(3) { display: none; }
+        }
+      `}</style>
     </div>
   )
 }
@@ -1067,18 +1196,18 @@ function Contact() {
     width: '100%',
     padding: '14px 16px',
     background: 'transparent',
-    border: '1px solid #e2ddd4',
+    border: '1px solid rgba(245,240,232,0.2)',
     fontFamily: "'Outfit', sans-serif",
     fontWeight: 300,
     fontSize: '0.95rem',
-    color: '#1a1815',
+    color: '#f5f0e8',
     outline: 'none',
     transition: 'border-color 0.2s',
   }
 
   return (
     <section id="contact" style={{ padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)', background: '#1a1815' }}>
-      <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(40px, 8vw, 120px)', alignItems: 'start' }}>
+      <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(40px, 8vw, 120px)', alignItems: 'start' }} className="contact-grid">
         <div className="slide-left">
           <span className="section-label" style={{ color: '#c4623a' }}>Let's Talk</span>
           <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 'clamp(2.8rem, 4vw, 5rem)', lineHeight: 1.0, letterSpacing: '-0.02em', marginTop: 16, color: '#f5f0e8' }}>
@@ -1163,7 +1292,7 @@ function Contact() {
                     onChange={e => setForm({ ...form, [key]: e.target.value })}
                     style={inputStyle}
                     onFocus={e => (e.target.style.borderColor = '#c4623a')}
-                    onBlur={e => (e.target.style.borderColor = '#e2ddd4')}
+                    onBlur={e => (e.target.style.borderColor = 'rgba(245,240,232,0.2)')}
                   />
                 </div>
               ))}
@@ -1176,7 +1305,7 @@ function Contact() {
                   onChange={e => setForm({ ...form, message: e.target.value })}
                   style={{ ...inputStyle, resize: 'vertical' }}
                   onFocus={e => (e.target.style.borderColor = '#c4623a')}
-                  onBlur={e => (e.target.style.borderColor = '#e2ddd4')}
+                  onBlur={e => (e.target.style.borderColor = 'rgba(245,240,232,0.2)')}
                 />
               </div>
               <button type="submit" className="btn-primary" style={{ marginTop: 8, width: '100%', justifyContent: 'center' }}>
@@ -1189,7 +1318,7 @@ function Contact() {
 
       <style>{`
         @media (max-width: 768px) {
-          #contact > div { grid-template-columns: 1fr; }
+          .contact-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
@@ -1229,6 +1358,7 @@ export default function App() {
 
   return (
     <div style={{ background: '#f5f0e8', minHeight: '100vh' }}>
+      <GlobalStyles />
       <Nav />
       <Hero />
       <About />
