@@ -1,0 +1,10 @@
+{
+  "description": "Showcase creative work with a sleek portfolio featuring smooth animations and transitions to impress clients and highlight your skills effectively.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
