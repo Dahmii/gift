@@ -326,10 +326,11 @@ function Hero() {
           overflow: 'hidden',
           background: '#2a2420',
           minHeight: '400px',
+          width: '100%',
         }}
       >
         <img
-          src={oyinFace}
+          src={typeof oyinFace === 'string' ? oyinFace : (oyinFace as any)?.default}
           alt="Gift Oyindamola Animashaun"
           style={{
             width: '100%',
@@ -765,7 +766,7 @@ function ProjectImageCarousel({ images, expanded }: { images: any[]; expanded: b
   const imgAlt = currentImg?.alt || ''
 
   return (
-    <div style={{ position: 'relative', overflow: 'hidden', background: '#e8e4dc', aspectRatio: '16/9', width: '100%' }}>
+    <div style={{ position: 'relative', overflow: 'hidden', background: '#e8e4dc', minHeight: '220px', aspectRatio: '16/9', width: '100%' }}>
       <img
         src={imgSrc}
         alt={imgAlt}
@@ -773,6 +774,7 @@ function ProjectImageCarousel({ images, expanded }: { images: any[]; expanded: b
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          display: 'block',
           transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
           transform: expanded ? 'scale(1.03)' : 'scale(1)',
         }}
