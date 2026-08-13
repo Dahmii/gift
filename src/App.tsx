@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import oyinFace from '@/imports/image.png'
+import oyinFace from '/public/image.png'
 import kfcPdf from '@/imports/KFC.pdf'
 import famePdf from '@/imports/Welcome-to-Fame-PR-Campaign-Proposal.pdf'
 import cvPdf from '@/imports/Gift_Oyindamola_Animashaun__2_.pdf'
@@ -330,7 +330,7 @@ function Hero() {
         }}
       >
         <img
-          src={`${import.meta.env.BASE_URL}image.png`}
+          src={oyinFace}
           alt="Gift Oyindamola Animashaun"
           style={{
             width: '100%',
