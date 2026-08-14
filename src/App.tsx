@@ -22,6 +22,9 @@ import reel1 from '@/imports/reel1.jpeg'
 import reel2 from '@/imports/reel2.jpg'
 import reel3 from '@/imports/reel3.jpg'
 import reel4 from '@/imports/reel4.jpg'
+import greenwichLogo from '@/imports/greenwich.png'
+import uiLogo from '@/imports/ui.png'
+import googleLogo from '@/imports/google.png'
 
 // ─── Scroll animation hook ───────────────────────────────────────────────────
 function useScrollReveal() {
@@ -570,6 +573,7 @@ function Background() {
       grade: 'Distinction',
       color: '#1a3a6e',
       abbr: 'UoG',
+      logo: greenwichLogo,
     },
     {
       school: 'University of Ibadan',
@@ -578,6 +582,7 @@ function Background() {
       grade: 'Second Class Upper',
       color: '#8b1a1a',
       abbr: 'UI',
+      logo: uiLogo,
     },
     {
       school: 'Google Digital Garage',
@@ -586,6 +591,7 @@ function Background() {
       grade: 'Certified',
       color: '#4285F4',
       abbr: 'G',
+      logo: googleLogo,
     },
   ]
 
@@ -626,7 +632,6 @@ function Background() {
                   width: 52,
                   height: 52,
                   borderRadius: '50%',
-                  background: c.color,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -636,7 +641,36 @@ function Background() {
                   marginBottom: 28,
                 }}
               >
-                {c.abbr}
+                {c.logo ? (
+  <div
+    style={{
+      width: 52,
+      height: 52,
+      borderRadius: '50%',
+      overflow: 'hidden',
+      background: '#fff',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 6,
+      marginBottom: 28,
+      border: '1px solid rgba(245,240,232,0.15)',
+    }}
+  >
+    <img
+      src={c.logo}
+      alt={`${c.school} logo`}
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block',
+      }}
+    />
+  </div>
+) : (
+  <span>{c.abbr}</span>
+)}
               </div>
 
               <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c4623a', marginBottom: 8 }}>
