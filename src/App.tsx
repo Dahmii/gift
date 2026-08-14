@@ -23,7 +23,7 @@ import reel2 from '@/imports/reel2.jpg'
 import reel3 from '@/imports/reel3.jpg'
 import reel4 from '@/imports/reel4.jpg'
 import greenwichLogo from '@/imports/greenwich.png'
-import uiLogo from '@/imports/ui.png'
+import uiLogo from '@/imports/UI.png'
 import googleLogo from '@/imports/google.png'
 
 // ─── Scroll animation hook ───────────────────────────────────────────────────
