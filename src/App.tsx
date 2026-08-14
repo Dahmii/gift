@@ -1052,7 +1052,7 @@ function Projects() {
       tags: ['Creative Direction', 'Copywriting', 'Brand Campaign'],
       videoUrl: new URL('./imports/home.mp4', import.meta.url).href, 
       videoPoster: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop&auto=format&sat=-30',
-      accent: '#5c6bc0',
+      accent: '#c05c5c',
       link: '#',
       linkLabel: 'Watch the ad',
       type: 'Branding',
@@ -1092,7 +1092,7 @@ function Projects() {
       images: [
         { src: comingSoon, alt: 'Travel editorial' },
       ],
-      accent: '#c4623a',
+      accent: '#ff4800',
       link: 'https://marieclaire.ng/beyond-imagination-benin-republic/',
       linkLabel: 'Read the article',
       type: 'Storytelling',
