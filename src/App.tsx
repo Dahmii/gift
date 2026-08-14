@@ -17,6 +17,7 @@ import cmbImg6 from '@/imports/CMB6.jpg'
 import marieImg1 from '@/imports/marie1.jpeg'
 import marieImg2 from '@/imports/marie2.JPG'
 import marieImg3 from '@/imports/marie3.jpeg'
+import comingSoon from '@/imports/Comingsoon.jpg'
 
 // ─── Scroll animation hook ───────────────────────────────────────────────────
 function useScrollReveal() {
@@ -250,38 +251,52 @@ function Hero() {
       id="top"
       ref={heroRef}
       onMouseMove={handleMouseMove}
+      className="hero-section"
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
+        gridTemplateColumns: '1fr 1fr', // Exact 50/50 split from reference
         overflow: 'hidden',
         position: 'relative',
+        background: '#f8f4ee',
       }}
     >
-      {/* Left pane */}
+      {/* Content pane (Left side: 50% width) */}
       <div
+        className="hero-content-pane"
         style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: 'clamp(100px, 10vw, 120px) clamp(24px, 5vw, 80px) clamp(60px, 6vw, 80px)',
+          justifyContent: 'center', // Centered vertically as shown in reference
+          padding: 'clamp(80px, 8vw, 120px) clamp(32px, 6vw, 96px)',
           position: 'relative',
           zIndex: 2,
         }}
       >
-        <div className="fade-up" style={{ marginBottom: 40 }}>
-          <span className="section-label">Portfolio — 2025</span>
+        <div className="fade-up" style={{ marginBottom: 'clamp(20px, 2.5vw, 36px)' }}>
+          <span 
+            className="section-label" 
+            style={{ 
+              letterSpacing: '0.18em', 
+              fontSize: '0.78rem',
+              fontWeight: 600,
+              color: '#c4623a',
+              textTransform: 'uppercase'
+            }}
+          >
+            Portfolio — 2025
+          </span>
         </div>
 
         <h1
           className="fade-up delay-1"
           style={{
             fontFamily: "'DM Serif Display', serif",
-            fontSize: 'clamp(3.2rem, 6vw, 6.5rem)',
-            lineHeight: 0.95,
+            fontSize: 'clamp(3rem, 5.2vw, 6.2rem)',
+            lineHeight: 1.02,
             letterSpacing: '-0.02em',
             color: '#1a1815',
-            marginBottom: 40,
+            marginBottom: 'clamp(24px, 3vw, 36px)',
           }}
         >
           Gift<br />
@@ -291,81 +306,189 @@ function Hero() {
 
         <p
           className="fade-up delay-2"
-          style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 300, fontSize: 'clamp(1rem, 1.4vw, 1.15rem)', color: '#8a857c', maxWidth: 340, lineHeight: 1.7, marginBottom: 48 }}
+          style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontWeight: 300,
+            fontSize: 'clamp(1rem, 1.25vw, 1.2rem)',
+            color: '#706c64',
+            maxWidth: 480,
+            lineHeight: 1.7,
+            marginBottom: 'clamp(32px, 4vw, 44px)',
+          }}
         >
           Marketing Communications Professional with 5+ years of international experience across the UK, USA, UAE, and Africa.
         </p>
 
-        <div className="fade-up delay-3" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+        <div className="fade-up delay-3 hero-cta-group" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
           <a href="#about" className="btn-primary">View Work</a>
           <a href="mailto:Oyinash33@gmail.com" className="btn-outline">Get in Touch</a>
         </div>
 
         {/* Stats row */}
         <div
-          className="fade-up delay-4"
-          style={{ display: 'flex', gap: 48, marginTop: 64, paddingTop: 40, borderTop: '1px solid #e2ddd4', flexWrap: 'wrap' }}
+          className="fade-up delay-4 hero-stats-row"
+          style={{
+            display: 'flex',
+            gap: 'clamp(24px, 3.5vw, 44px)',
+            marginTop: 'clamp(36px, 4.5vw, 56px)',
+            paddingTop: 'clamp(24px, 3vw, 36px)',
+            borderTop: '1px solid #e5dfd5',
+            flexWrap: 'wrap',
+          }}
         >
           {[
             { n: '5+', label: 'Years Experience' },
             { n: '4', label: 'Continents' },
             { n: 'MA', label: 'Strategic Marketing' },
           ].map(({ n, label }) => (
-            <div key={label}>
+            <div key={label} style={{ minWidth: 90 }}>
               <div className="stat-number">{n}</div>
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 400, fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a857c', marginTop: 4 }}>{label}</div>
+              <div
+                style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontWeight: 400,
+                  fontSize: '0.72rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: '#8a857c',
+                  marginTop: 4,
+                }}
+              >
+                {label}
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Right pane — image */}
+      {/* Image pane (Right side: 50% width) */}
       <div
+        className="hero-image-pane"
         style={{
           position: 'relative',
           overflow: 'hidden',
-          background: '#2a2420',
-          minHeight: '400px',
+          background: '#ece6dc',
           width: '100%',
+          height: '100%',
+          minHeight: '100%',
         }}
       >
         <img
-          src={new URL('./imports/image.png', import.meta.url).href}
+          src={new URL('./imports/oyinhero.png', import.meta.url).href}
           alt="Gift Oyindamola Animashaun"
+          className="hero-portrait-img"
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: 0.85,
-            transform: `scale(1.06) translate(${(mousePos.x - 0.5) * -12}px, ${(mousePos.y - 0.5) * -12}px)`,
+            display: 'block',
+            transform: `scale(1.04) translate(${(mousePos.x - 0.5) * -10}px, ${(mousePos.y - 0.5) * -10}px)`,
             transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
-        />  
-        {/* Overlay gradient */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(245,240,232,0.3) 0%, transparent 30%)' }} />
+        />
+
+        {/* Subtle blending gradient matching the left background */}
+        <div
+          className="hero-image-gradient"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to right, rgba(248, 244, 238, 0.4) 0%, transparent 25%)',
+            pointerEvents: 'none',
+          }}
+        />
 
         {/* Floating label */}
         <div
-          className="fade-in delay-4"
+          className="fade-in delay-4 hero-badge"
           style={{
             position: 'absolute',
-            bottom: 40,
-            right: 40,
-            background: 'rgba(245,240,232,0.92)',
+            bottom: 'clamp(24px, 3.5vw, 48px)',
+            right: 'clamp(24px, 3.5vw, 48px)',
+            background: 'rgba(248,244,238,0.94)',
             backdropFilter: 'blur(12px)',
-            padding: '16px 24px',
+            padding: 'clamp(12px, 1.5vw, 16px) clamp(16px, 2vw, 24px)',
             borderLeft: '3px solid #c4623a',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
           }}
         >
-          <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c4623a', marginBottom: 4 }}>Available for</div>
-          <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.1rem', color: '#1a1815' }}>New Opportunities</div>
+          <div
+            style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontWeight: 500,
+              fontSize: '0.68rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: '#c4623a',
+              marginBottom: 4,
+            }}
+          >
+            Available for
+          </div>
+          <div
+            style={{
+              fontFamily: "'DM Serif Display', serif",
+              fontSize: 'clamp(0.95rem, 1.2vw, 1.15rem)',
+              color: '#1a1815',
+            }}
+          >
+            New Opportunities
+          </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          section#top { grid-template-columns: 1fr; }
-          section#top > div:last-child { min-height: 50vh; }
+        /* Responsive Breakpoint for Tablets & Mobile (<= 968px) */
+        @media (max-width: 968px) {
+          .hero-section {
+            grid-template-columns: 1fr !important;
+            min-height: auto !important;
+          }
+          .hero-content-pane {
+            order: 1 !important;
+            padding-top: 110px !important;
+            padding-bottom: 48px !important;
+          }
+          .hero-image-pane {
+            order: 2 !important;
+            height: clamp(380px, 60vh, 540px) !important;
+            min-height: 380px !important;
+          }
+          .hero-image-gradient {
+            background: linear-gradient(to bottom, rgba(248,244,238,0.6) 0%, transparent 35%) !important;
+          }
+        }
+
+        /* Mobile Phones (<= 520px) */
+        @media (max-width: 520px) {
+          .hero-image-pane {
+            height: 340px !important;
+          }
+          .hero-cta-group {
+            flex-direction: column;
+            width: 100%;
+          }
+          .hero-cta-group a {
+            width: 100%;
+            justify-content: center;
+          }
+          .hero-stats-row {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 12px !important;
+          }
+          .hero-badge {
+            bottom: 16px !important;
+            right: 16px !important;
+            padding: 10px 16px !important;
+          }
+        }
+
+        /* Disable parallax transformation on touch devices */
+        @media (hover: none) {
+          .hero-portrait-img {
+            transform: none !important;
+          }
         }
       `}</style>
     </section>
@@ -927,15 +1050,14 @@ function Projects() {
       metric: '60%',
       metricLabel: 'Rise in Digital Engagement',
       tags: ['Creative Direction', 'Copywriting', 'Brand Campaign'],
-      images: [
-        { src: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop&auto=format&sat=-30', alt: 'Aspirational home campaign visual' }
-      ],
+      videoUrl: new URL('./imports/home.mp4', import.meta.url).href, 
+      videoPoster: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop&auto=format&sat=-30',
       accent: '#5c6bc0',
       link: '#',
       linkLabel: 'Watch the ad',
       type: 'Branding',
       linkType: 'external',
-    },
+},
     {
       num: '05',
       title: 'Travel Feature in Marie Claire',
@@ -968,9 +1090,7 @@ function Projects() {
       metricLabel: null,
       tags: ['Editorial Writing', 'Travel', 'Published Feature'],
       images: [
-        { src: marieImg1, alt: 'Africa travel editorial' },
-        { src: marieImg2, alt: 'Marie Claire travel feature' },
-        { src: marieImg3, alt: 'Exploring African destinations' },
+        { src: comingSoon, alt: 'Travel editorial' },
       ],
       accent: '#c4623a',
       link: 'https://marieclaire.ng/beyond-imagination-benin-republic/',
@@ -1128,8 +1248,21 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
             paddingTop: 8,
           }}
         >
-          {/* Image Carousel */}
-          <ProjectImageCarousel images={imageList} expanded={expanded} />
+          {/* Left Column — Media */}
+          {p.videoUrl ? (
+            <div style={{ position: 'relative', overflow: 'hidden', background: '#000', aspectRatio: '16/9', width: '100%' }}>
+              <video
+                src={p.videoUrl}
+                poster={p.videoPoster}
+                controls
+                playsInline
+                preload="metadata"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          ) : (
+            <ProjectImageCarousel images={imageList} expanded={expanded} />
+          )}
 
           {/* Details */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
