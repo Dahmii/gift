@@ -1534,7 +1534,7 @@ function Reels() {
       platform: 'Instagram',
       views: '45.2K',
       // Put your MP4 file or embed URL here:
-      videoUrl: 'https://www.instagram.com/reel/DV36vHqCAC3/embed', 
+      videoUrl: new URL('./imports/reel1.mp4', import.meta.url).href, 
       previewImg: reel1,
       link: 'https://www.instagram.com/reel/DV36vHqCAC3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
     },
