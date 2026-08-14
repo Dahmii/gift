@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import oyinFace from '@/imports/oyin_face.png'
+import oyinFace from '@/imports/oyinhero.png'
 import kfcPdf from '@/imports/KFC.pdf'
 import famePdf from '@/imports/Welcome-to-Fame-PR-Campaign-Proposal.pdf'
 import cvPdf from '@/imports/Gift_Oyindamola_Animashaun__2_.pdf'
@@ -18,6 +18,10 @@ import marieImg1 from '@/imports/marie1.jpeg'
 import marieImg2 from '@/imports/marie2.webp'
 import marieImg3 from '@/imports/marie3.jpeg'
 import comingSoon from '@/imports/Comingsoon.jpg'
+import reel1 from '@/imports/reel1.jpeg'
+import reel2 from '@/imports/reel2.jpg'
+import reel3 from '@/imports/reel3.jpg'
+import reel4 from '@/imports/reel4.jpg'
 
 // ─── Scroll animation hook ───────────────────────────────────────────────────
 function useScrollReveal() {
@@ -165,7 +169,7 @@ function Nav() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const links = ['About', 'Background', 'Tools', 'Projects', 'Contact']
+  const links = ['About', 'Background', 'Tools', 'Focus', 'Projects', 'Reels', 'Contact']
 
   return (
     <header
@@ -191,7 +195,7 @@ function Nav() {
         </a>
 
         {/* Desktop nav */}
-        <nav style={{ display: 'flex', gap: 36, alignItems: 'center' }} className="hidden-mobile">
+        <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }} className="hidden-mobile">
           {links.map((l) => (
             <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">{l}</a>
           ))}
@@ -255,19 +259,19 @@ function Hero() {
       style={{
         minHeight: '100dvh',
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr', // Exact 50/50 split from reference
+        gridTemplateColumns: '1fr 1fr',
         overflow: 'hidden',
         position: 'relative',
         background: '#f8f4ee',
       }}
     >
-      {/* Content pane (Left side: 50% width) */}
+      {/* Content pane */}
       <div
         className="hero-content-pane"
         style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center', // Centered vertically as shown in reference
+          justifyContent: 'center',
           padding: 'clamp(80px, 8vw, 120px) clamp(32px, 6vw, 96px)',
           position: 'relative',
           zIndex: 2,
@@ -361,7 +365,7 @@ function Hero() {
         </div>
       </div>
 
-      {/* Image pane (Right side: 50% width) */}
+      {/* Image pane */}
       <div
         className="hero-image-pane"
         style={{
@@ -374,7 +378,7 @@ function Hero() {
         }}
       >
         <img
-          src={new URL('./imports/oyinhero.png', import.meta.url).href}
+          src={oyinFace}
           alt="Gift Oyindamola Animashaun"
           className="hero-portrait-img"
           style={{
@@ -387,7 +391,6 @@ function Hero() {
           }}
         />
 
-        {/* Subtle blending gradient matching the left background */}
         <div
           className="hero-image-gradient"
           style={{
@@ -398,7 +401,6 @@ function Hero() {
           }}
         />
 
-        {/* Floating label */}
         <div
           className="fade-in delay-4 hero-badge"
           style={{
@@ -438,7 +440,6 @@ function Hero() {
       </div>
 
       <style>{`
-        /* Responsive Breakpoint for Tablets & Mobile (<= 968px) */
         @media (max-width: 968px) {
           .hero-section {
             grid-template-columns: 1fr !important;
@@ -459,7 +460,6 @@ function Hero() {
           }
         }
 
-        /* Mobile Phones (<= 520px) */
         @media (max-width: 520px) {
           .hero-image-pane {
             height: 340px !important;
@@ -484,7 +484,6 @@ function Hero() {
           }
         }
 
-        /* Disable parallax transformation on touch devices */
         @media (hover: none) {
           .hero-portrait-img {
             transform: none !important;
@@ -622,7 +621,6 @@ function Background() {
               onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(245,240,232,0.06)'; (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(196,98,58,0.4)' }}
               onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(245,240,232,0.03)'; (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(245,240,232,0.1)' }}
             >
-              {/* Abbr badge */}
               <div
                 style={{
                   width: 52,
@@ -686,7 +684,6 @@ function Tools() {
         </div>
       </div>
 
-      {/* Marquee strip */}
       <div style={{ overflow: 'hidden', borderTop: '1px solid #e2ddd4', borderBottom: '1px solid #e2ddd4', padding: '20px 0', background: '#faf7f2', position: 'relative' }}>
         <div
           className="marquee-track"
@@ -701,7 +698,6 @@ function Tools() {
         </div>
       </div>
 
-      {/* Grid of tool pills */}
       <div style={{ padding: '48px clamp(24px, 5vw, 80px) 0', maxWidth: 1400, margin: '0 auto' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {tools.map((t, i) => (
@@ -833,7 +829,6 @@ function PdfModal({ url, title, onClose }: { url: string; title: string; onClose
       >
         <style>{`@keyframes slideUpModal { from { transform:translateY(24px); opacity:0 } to { transform:translateY(0); opacity:1 } }`}</style>
 
-        {/* Modal header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', borderBottom: '1px solid #e2ddd4', flexShrink: 0 }}>
           <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.05rem', color: '#1a1815' }}>{title}</span>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
@@ -857,7 +852,6 @@ function PdfModal({ url, title, onClose }: { url: string; title: string; onClose
           </div>
         </div>
 
-        {/* PDF iframe */}
         <iframe
           src={`${url}#toolbar=0`}
           title={title}
@@ -903,7 +897,6 @@ function ProjectImageCarousel({ images, expanded }: { images: any[]; expanded: b
         }}
       />
 
-      {/* Navigation Arrows */}
       {images.length > 1 && (
         <>
           <button
@@ -951,7 +944,6 @@ function ProjectImageCarousel({ images, expanded }: { images: any[]; expanded: b
             ›
           </button>
           
-          {/* Counter pill */}
           <span style={{
             position: 'absolute',
             bottom: '12px',
@@ -1057,7 +1049,7 @@ function Projects() {
       linkLabel: 'Watch the ad',
       type: 'Branding',
       linkType: 'external',
-},
+    },
     {
       num: '05',
       title: 'Travel Feature in Marie Claire',
@@ -1172,7 +1164,6 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Collapsed row */}
       <button
         onClick={() => setExpanded(!expanded)}
         className="project-row-button"
@@ -1189,10 +1180,8 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
           textAlign: 'left',
         }}
       >
-        {/* Number */}
         <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 300, fontSize: '0.8rem', color: '#c4c0b8', letterSpacing: '0.05em' }}>{p.num}</span>
 
-        {/* Title + meta */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 2vw, 32px)', flexWrap: 'wrap' }}>
           <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 'clamp(1.2rem, 2vw, 1.7rem)', color: '#1a1815', letterSpacing: '-0.01em', margin: 0 }}>{p.title}</h3>
           <span style={{
@@ -1208,10 +1197,8 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
           }}>{p.category}</span>
         </div>
 
-        {/* Year */}
         <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 300, fontSize: '0.85rem', color: '#8a857c', whiteSpace: 'nowrap' }}>{p.year}</span>
 
-        {/* Chevron */}
         <span style={{
           display: 'flex',
           alignItems: 'center',
@@ -1232,7 +1219,6 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
         </span>
       </button>
 
-      {/* Expanded panel */}
       <div style={{
         overflow: 'hidden',
         maxHeight: expanded ? 1200 : 0,
@@ -1248,7 +1234,6 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
             paddingTop: 8,
           }}
         >
-          {/* Left Column — Media */}
           {p.videoUrl ? (
             <div style={{ position: 'relative', overflow: 'hidden', background: '#000', aspectRatio: '16/9', width: '100%' }}>
               <video
@@ -1264,20 +1249,17 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
             <ProjectImageCarousel images={imageList} expanded={expanded} />
           )}
 
-          {/* Details */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: p.accent, marginBottom: 8 }}>{p.client}</div>
               <p style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 300, fontSize: 'clamp(0.85rem, 1.1vw, 0.95rem)', color: '#5a5650', lineHeight: 1.85, marginBottom: 24 }}>{p.desc}</p>
 
-              {/* Tags */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
                 {p.tags.map((t: string) => (
                   <span key={t} style={{ padding: '5px 12px', border: '1px solid #e2ddd4', fontFamily: "'Outfit', sans-serif", fontWeight: 400, fontSize: '0.72rem', color: '#8a857c' }}>{t}</span>
                 ))}
               </div>
 
-              {/* Metric */}
               {p.metric && (
                 <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 10, padding: '14px 20px', background: p.accent + '12', borderLeft: `3px solid ${p.accent}`, marginBottom: 28 }}>
                   <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: '2.2rem', color: p.accent, lineHeight: 1 }}>{p.metric}</span>
@@ -1314,6 +1296,528 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
         }
       `}</style>
     </div>
+  )
+}
+
+// ─── Reels / Short-Form Video Section ─────────────────────────────────────────
+function ReelViewerModal({
+  reel,
+  onClose,
+}: {
+  reel: {
+    title: string
+    category: string
+    platform: string
+    views: string
+    videoUrl?: string
+    previewImg?: string
+    link: string
+  }
+  onClose: () => void
+}) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+
+  const isDirectVideo =
+    reel.videoUrl &&
+    (reel.videoUrl.endsWith('.mp4') ||
+      reel.videoUrl.includes('.mp4?') ||
+      reel.videoUrl.startsWith('blob:') ||
+      reel.videoUrl.startsWith('data:'))
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        background: 'rgba(18, 15, 12, 0.88)',
+        backdropFilter: 'blur(10px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 'clamp(16px, 3vw, 40px)',
+        animation: 'reelFadeIn 0.25s ease-out',
+      }}
+    >
+      <style>{`
+        @keyframes reelFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes reelSlideUp {
+          from { transform: translateY(20px) scale(0.96); opacity: 0; }
+          to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+      `}</style>
+
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '420px',
+          height: '85vh',
+          maxHeight: '740px',
+          background: '#000',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.6)',
+          animation: 'reelSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close viewer"
+          style={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 10,
+            background: 'rgba(26, 24, 21, 0.65)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '50%',
+            width: 36,
+            height: 36,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#f5f0e8',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = '#c4623a')}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = 'rgba(26, 24, 21, 0.65)')}
+        >
+          ✕
+        </button>
+
+        {/* Video Player */}
+        <div style={{ flex: 1, position: 'relative', background: '#000', overflow: 'hidden' }}>
+          {isDirectVideo ? (
+            <video
+              src={reel.videoUrl}
+              poster={reel.previewImg}
+              autoPlay
+              controls
+              playsInline
+              loop
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          ) : reel.videoUrl ? (
+            <iframe
+              src={reel.videoUrl.includes('?') ? `${reel.videoUrl}&autoplay=1` : `${reel.videoUrl}?autoplay=1`}
+              title={reel.title}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+            />
+          ) : (
+            <img
+              src={reel.previewImg}
+              alt={reel.title}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          )}
+        </div>
+
+        {/* Footer info & Optional External Link */}
+        <div
+          style={{
+            background: 'linear-gradient(to top, #1a1815 0%, rgba(26, 24, 21, 0.95) 85%, transparent 100%)',
+            padding: '20px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12,
+            zIndex: 5,
+          }}
+        >
+          {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span
+              style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.12em',
+                color: '#c4623a',
+              }}
+            >
+              {reel.category}
+            </span>
+            <span
+              style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: '0.72rem',
+                color: '#9a9590',
+              }}
+            >
+              {reel.views} Views
+            </span>
+          </div> */}
+
+          {/* <h3
+            style={{
+              fontFamily: "'DM Serif Display', serif",
+              fontSize: '1.25rem',
+              color: '#f5f0e8',
+              margin: 0,
+              lineHeight: 1.25,
+            }}
+          >
+            {reel.title}
+          </h3> */}
+
+          {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
+            <span
+              style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: '0.75rem',
+                color: '#9a9590',
+              }}
+            >
+              Playing on Portfolio
+            </span>
+            <a
+              href={reel.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              style={{
+                padding: '8px 16px',
+                fontSize: '0.7rem',
+                color: '#f5f0e8',
+                borderColor: 'rgba(245, 240, 232, 0.25)',
+                background: 'rgba(255, 255, 255, 0.05)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#c4623a'
+                e.currentTarget.style.borderColor = '#c4623a'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                e.currentTarget.style.borderColor = 'rgba(245, 240, 232, 0.25)'
+              }}
+            >
+              Open on {reel.platform} ↗
+            </a>
+          </div> */}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Reels() {
+  const [selectedReel, setSelectedReel] = useState<any>(null)
+
+  const reels = [
+    {
+      id: 'reel-1',
+      title: 'A Day in the Life of a Marketing Strategist',
+      category: 'Lifestyle & Career',
+      platform: 'Instagram',
+      views: '45.2K',
+      // Put your MP4 file or embed URL here:
+      videoUrl: 'https://www.instagram.com/reel/DV36vHqCAC3/embed', 
+      previewImg: reel1,
+      link: 'https://www.instagram.com/reel/DV36vHqCAC3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+    },
+    {
+      id: 'reel-2',
+      title: 'Behind The Scenes: Brand Direction & Production',
+      category: 'Creative Direction',
+      platform: 'Instagram',
+      views: '28.6K',
+      videoUrl: 'https://www.instagram.com/reel/DV36vHqCAC3/embed',
+      // Direct Instagram cover thumbnail endpoint:
+      previewImg:reel2,
+      link: 'https://www.instagram.com/reel/DV36vHqCAC3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+    },
+    {
+      id: 'reel-3',
+      title: 'Solo Travel Series: Exploring Contemporary Culture',
+      category: 'Travel & Storytelling',
+      platform: 'TikTok',
+      views: '84.1K',
+      videoUrl: new URL('./imports/home.mp4', import.meta.url).href,
+      previewImg: reel3,
+      link: 'https://www.tiktok.com/@brellss?_r=1&_t=ZS-96tvkepkei9',
+    },
+    {
+      id: 'reel-4',
+      title: '3 Marketing Frameworks Every Creator Needs',
+      category: 'Brand Strategy',
+      platform: 'Instagram',
+      views: '19.4K',
+      videoUrl: new URL('./imports/home.mp4', import.meta.url).href,
+      previewImg: reel4,
+      link: 'https://www.instagram.com/brellss?igsh=MXNwYjExb3I1c2wxeA%3D%3D&utm_source=qr',
+    },
+  ]
+
+  return (
+    <section id="reels" style={{ padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)', background: '#faf7f2' }}>
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 56, flexWrap: 'wrap', gap: 24 }}>
+          <div className="fade-up">
+            <span className="section-label">Short-Form Content</span>
+            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 'clamp(2.8rem, 4vw, 4.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em', marginTop: 16, color: '#1a1815' }}>
+              Reels &amp; Highlights
+            </h2>
+          </div>
+
+          <div className="fade-up delay-2" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <a
+              href="https://www.tiktok.com/@brellss?_r=1&_t=ZS-96tvkepkei9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              style={{ padding: '10px 20px', fontSize: '0.75rem' }}
+            >
+              TikTok Profile ↗
+            </a>
+            <a
+              href="https://www.instagram.com/brellss?igsh=MXNwYjExb3I1c2wxeA%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              style={{ padding: '10px 20px', fontSize: '0.75rem' }}
+            >
+              Instagram Profile ↗
+            </a>
+          </div>
+        </div>
+
+        {/* Reels Grid */}
+        <div 
+          className="reels-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 'clamp(16px, 2vw, 28px)',
+          }}
+        >
+          {reels.map((reel, idx) => (
+            <div
+              key={reel.id}
+              onClick={() => setSelectedReel(reel)}
+              className={`reel-card fade-up delay-${(idx % 4) + 1}`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                cursor: 'pointer',
+                background: '#1a1815',
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '4px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+                aspectRatio: '9 / 15',
+                transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease',
+              }}
+            >
+              {/* Media Preview */}
+              <img
+                src={reel.previewImg}
+                alt={reel.title}
+                className="reel-img"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                  opacity: 0.88,
+                  transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
+                }}
+              />
+
+              {/* Gradient Overlays */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(26,24,21,0.92) 0%, rgba(26,24,21,0.3) 45%, rgba(26,24,21,0.4) 100%)',
+                  pointerEvents: 'none',
+                }}
+              />
+
+              {/* Top Header Badge */}
+              {/* <div
+                style={{
+                  position: 'absolute',
+                  top: 18,
+                  left: 18,
+                  right: 18,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  zIndex: 2,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontWeight: 600,
+                    fontSize: '0.68rem',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    padding: '4px 10px',
+                    background: 'rgba(245,240,232,0.9)',
+                    backdropFilter: 'blur(8px)',
+                    color: '#1a1815',
+                  }}
+                >
+                  {reel.platform}
+                </span>
+              </div> */}
+
+              {/* Play Button Icon */}
+              <div
+                className="reel-play-button"
+                style={{
+                  position: 'absolute',
+                  top: '46%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: 52,
+                  height: 52,
+                  borderRadius: '50%',
+                  background: 'rgba(245,240,232,0.85)',
+                  backdropFilter: 'blur(8px)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
+                  transition: 'transform 0.3s ease, background 0.3s ease',
+                  zIndex: 2,
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1a1815" style={{ marginLeft: 3 }}>
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+
+              {/* Bottom Content */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: 'clamp(16px, 2vw, 24px)',
+                  zIndex: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                  {/* <div
+                    style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 500,
+                      fontSize: '0.7rem',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: '#c4623a',
+                      marginBottom: 6,
+                    }}
+                  >
+                    {reel.category}
+                  </div> */}
+
+                {/* <h3
+                  style={{
+                    fontFamily: "'DM Serif Display', serif",
+                    fontSize: 'clamp(1.15rem, 1.4vw, 1.35rem)',
+                    color: '#f5f0e8',
+                    lineHeight: 1.25,
+                    letterSpacing: '-0.01em',
+                    margin: '0 0 12px 0',
+                  }}
+                >
+                  {reel.title}
+                </h3> */}
+
+                {/* <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontFamily: "'Outfit', sans-serif",
+                    fontWeight: 500,
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: '#f5f0e8',
+                  }}
+                >
+                  Watch Video ▶
+                </span> */}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Render Lightbox Modal when a reel is clicked */}
+      {selectedReel && (
+        <ReelViewerModal
+          reel={selectedReel}
+          onClose={() => setSelectedReel(null)}
+        />
+      )}
+
+      <style>{`
+        .reel-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 16px 36px rgba(0,0,0,0.18) !important;
+        }
+        .reel-card:hover .reel-img {
+          transform: scale(1.06);
+          opacity: 0.95 !important;
+        }
+        .reel-card:hover .reel-play-button {
+          transform: translate(-50%, -50%) scale(1.15);
+          background: #c4623a !important;
+        }
+        .reel-card:hover .reel-play-button svg {
+          fill: #fff !important;
+        }
+
+        @media (max-width: 1024px) {
+          .reels-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+          }
+        }
+
+        @media (max-width: 580px) {
+          .reels-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          .reel-card {
+            aspect-ratio: 16 / 11 !important;
+          }
+        }
+      `}</style>
+    </section>
   )
 }
 
@@ -1501,6 +2005,7 @@ export default function App() {
       <Tools />
       <Focus />
       <Projects />
+      <Reels />
       <Contact />
       <Footer />
     </div>
