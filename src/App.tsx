@@ -20,16 +20,21 @@ import marieImg3 from '@/imports/marie3.jpeg'
 import comingSoon from '@/imports/Comingsoon.jpg'
 import reel1 from '@/imports/reel1.jpeg'
 import reel2 from '@/imports/reel2.jpg'
-import reel3 from '@/imports/reel3.jpg'
+import reel3 from '@/imports/reel3.webp'
 import reel4 from '@/imports/reel4.jpg'
 import greenwichLogo from '@/imports/greenwich.png'
 import uiLogo from '@/imports/UI.png'
 import googleLogo from '@/imports/google.png'
+import storytellingImg from '@/imports/storytelling.jpg'
 
-// ─── Scroll animation hook ───────────────────────────────────────────────────
+// ─── Scroll animation hook (Dynamic) ─────────────────────────────────────────
 function useScrollReveal() {
   useEffect(() => {
-    const targets = document.querySelectorAll('.fade-up, .fade-in, .slide-left, .slide-right')
+    const observeElements = () => {
+      const targets = document.querySelectorAll('.fade-up:not(.visible), .fade-in:not(.visible), .slide-left:not(.visible), .slide-right:not(.visible)')
+      targets.forEach((t) => io.observe(t))
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -39,10 +44,19 @@ function useScrollReveal() {
           }
         })
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
     )
-    targets.forEach((t) => io.observe(t))
-    return () => io.disconnect()
+
+    observeElements()
+
+    // Mutation observer to automatically catch filtered list updates
+    const mo = new MutationObserver(() => observeElements())
+    mo.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      io.disconnect()
+      mo.disconnect()
+    }
   }, [])
 }
 
@@ -764,7 +778,7 @@ function Focus() {
     {
       title: 'Storytelling',
       desc: 'Transforming ideas into engaging brand narratives that build connection, shape perception, and drive meaningful engagement.',
-      img: 'https://images.unsplash.com/photo-1590102426275-8d1c367070d3?w=600&h=480&fit=crop&auto=format',
+      img: storytellingImg,
       alt: 'Open book with creative elements',
       accent: '#c4623a',
     },
@@ -997,6 +1011,7 @@ function ProjectImageCarousel({ images, expanded }: { images: any[]; expanded: b
 }
 
 // ─── Projects ────────────────────────────────────────────────────────────────
+// ─── Projects ────────────────────────────────────────────────────────────────
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All')
 
@@ -1019,7 +1034,7 @@ function Projects() {
       accent: '#e4002b',
       link: kfcPdf,
       linkLabel: 'See full campaign',
-      type: 'Strategy',
+      type: ['Strategy', 'Branding'],
       linkType: 'pdf',
     },
     {
@@ -1039,7 +1054,7 @@ function Projects() {
       accent: '#c9a84c',
       link: famePdf,
       linkLabel: 'See full campaign',
-      type: 'Strategy',
+      type: ['Strategy', 'Branding'],
       linkType: 'pdf',
     },
     {
@@ -1063,7 +1078,7 @@ function Projects() {
       accent: '#2e7d32',
       link: '#',
       linkLabel: 'See full campaign',
-      type: 'Strategy',
+      type: ['Strategy', 'Branding'],
       linkType: 'external',
     },
     {
@@ -1081,7 +1096,7 @@ function Projects() {
       accent: '#c05c5c',
       link: '#',
       linkLabel: 'Watch the ad',
-      type: 'Branding',
+      type: ['Storytelling', 'Branding'],
       linkType: 'external',
     },
     {
@@ -1121,13 +1136,19 @@ function Projects() {
       accent: '#ff4800',
       link: 'https://marieclaire.ng/beyond-imagination-benin-republic/',
       linkLabel: 'Read the article',
-      type: 'Storytelling',
+      type: '',
       linkType: 'external',
     }
   ]
 
   const filters = ['All', 'Strategy', 'Branding', 'Storytelling']
-  const filtered = activeFilter === 'All' ? projects : projects.filter(p => p.type === activeFilter)
+  const filtered = activeFilter === 'All' 
+  ? projects 
+  : projects.filter((p) => {
+    return Array.isArray(p.type) 
+    ? p.type.includes(activeFilter) 
+    : p.type === activeFilter
+  })
 
   return (
     <section id="projects" style={{ padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)', background: '#f5f0e8' }}>
@@ -1172,7 +1193,7 @@ function Projects() {
         {/* Project list */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {filtered.map((p, i) => (
-            <ProjectCard key={p.num} p={p} i={i} />
+            <ProjectCard key={`${activeFilter}-${p.num}`} p={p} i={i} isFiltered={activeFilter !== 'All'} />
           ))}
         </div>
       </div>
@@ -1180,7 +1201,7 @@ function Projects() {
   )
 }
 
-function ProjectCard({ p, i }: { p: any; i: number }) {
+function ProjectCard({ p, i, isFiltered }: { p: any; i: number; isFiltered?: boolean }) {
   const [expanded, setExpanded] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [pdfOpen, setPdfOpen] = useState(false)
@@ -1189,11 +1210,12 @@ function ProjectCard({ p, i }: { p: any; i: number }) {
 
   return (
     <div
-      className={`fade-up delay-${(i % 3) + 1}`}
+      className={isFiltered ? 'visible' : `fade-up delay-${(i % 3) + 1}`}
       style={{
         borderTop: '1px solid #e2ddd4',
         background: hovered ? '#faf7f2' : 'transparent',
-        transition: 'background 0.3s',
+        transition: 'background 0.3s, opacity 0.4s',
+        opacity: isFiltered ? 1 : undefined,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -1340,9 +1362,6 @@ function ReelViewerModal({
 }: {
   reel: {
     title: string
-    category: string
-    platform: string
-    views: string
     videoUrl?: string
     previewImg?: string
     link: string
@@ -1366,7 +1385,8 @@ function ReelViewerModal({
     (reel.videoUrl.endsWith('.mp4') ||
       reel.videoUrl.includes('.mp4?') ||
       reel.videoUrl.startsWith('blob:') ||
-      reel.videoUrl.startsWith('data:'))
+      reel.videoUrl.startsWith('data:') ||
+      !reel.videoUrl.includes('instagram.com'))
 
   return (
     <div
@@ -1375,74 +1395,67 @@ function ReelViewerModal({
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: 'rgba(18, 15, 12, 0.88)',
-        backdropFilter: 'blur(10px)',
+        background: 'rgba(18, 15, 12, 0.9)',
+        backdropFilter: 'blur(12px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 'clamp(16px, 3vw, 40px)',
-        animation: 'reelFadeIn 0.25s ease-out',
+        padding: '16px',
+        animation: 'reelFadeIn 0.2s ease-out',
       }}
     >
       <style>{`
-        @keyframes reelFadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes reelSlideUp {
-          from { transform: translateY(20px) scale(0.96); opacity: 0; }
-          to { transform: translateY(0) scale(1); opacity: 1; }
-        }
+        @keyframes reelFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes reelPop { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
       `}</style>
 
+      {/* Modal Container */}
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: '420px',
-          height: '85vh',
-          maxHeight: '740px',
+          maxWidth: '400px',
+          height: '84vh',
+          maxHeight: '720px',
           background: '#000',
-          borderRadius: '12px',
+          borderRadius: '16px',
           overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.6)',
-          animation: 'reelSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.7)',
+          animation: 'reelPop 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
-        {/* Close button */}
+        {/* Floating Close Button */}
         <button
           onClick={onClose}
-          aria-label="Close viewer"
+          aria-label="Close"
           style={{
             position: 'absolute',
-            top: 16,
-            right: 16,
-            zIndex: 10,
+            top: 14,
+            right: 14,
+            zIndex: 30,
             background: 'rgba(26, 24, 21, 0.65)',
             backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
             borderRadius: '50%',
             width: 36,
             height: 36,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#f5f0e8',
+            color: '#fff',
             cursor: 'pointer',
             fontSize: '1rem',
             transition: 'background 0.2s',
           }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = '#c4623a')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = 'rgba(26, 24, 21, 0.65)')}
+          onMouseEnter={(e) => (e.currentTarget.style.background = '#c4623a')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(26, 24, 21, 0.65)')}
         >
           ✕
         </button>
 
         {/* Video Player */}
-        <div style={{ flex: 1, position: 'relative', background: '#000', overflow: 'hidden' }}>
+        <div style={{ width: '100%', height: '100%', position: 'relative', background: '#000' }}>
           {isDirectVideo ? (
             <video
               src={reel.videoUrl}
@@ -1451,106 +1464,75 @@ function ReelViewerModal({
               controls
               playsInline
               loop
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
             />
-          ) : reel.videoUrl ? (
+          ) : (
             <iframe
-              src={reel.videoUrl.includes('?') ? `${reel.videoUrl}&autoplay=1` : `${reel.videoUrl}?autoplay=1`}
+              src={reel.videoUrl}
               title={reel.title}
               allow="autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
+              scrolling="no"
               style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-            />
-          ) : (
-            <img
-              src={reel.previewImg}
-              alt={reel.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           )}
         </div>
 
-        {/* Footer info & Optional External Link */}
+        {/* Clean Bottom Gradient with "Watch Reel" at Bottom Left */}
         <div
           style={{
-            background: 'linear-gradient(to top, #1a1815 0%, rgba(26, 24, 21, 0.95) 85%, transparent 100%)',
-            padding: '20px 24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 12,
-            zIndex: 5,
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: '24px 20px',
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%)',
+            pointerEvents: 'none',
+            zIndex: 20,
           }}
         >
-          {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span
-              style={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: '0.72rem',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
-                color: '#c4623a',
-              }}
-            >
-              {reel.category}
-            </span>
-            <span
-              style={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: '0.72rem',
-                color: '#9a9590',
-              }}
-            >
-              {reel.views} Views
-            </span>
-          </div> */}
-
-          {/* <h3
+          <a
+            href={reel.link}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              fontFamily: "'DM Serif Display', serif",
-              fontSize: '1.25rem',
+              pointerEvents: 'auto',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              fontFamily: "'Outfit', sans-serif",
+              fontWeight: 500,
+              fontSize: '0.78rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
               color: '#f5f0e8',
-              margin: 0,
-              lineHeight: 1.25,
+              textDecoration: 'none',
+              background: 'rgba(26, 24, 21, 0.75)',
+              backdropFilter: 'blur(8px)',
+              padding: '10px 18px',
+              borderRadius: '24px',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              transition: 'background 0.2s, border-color 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#c4623a'
+              e.currentTarget.style.borderColor = '#c4623a'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(26, 24, 21, 0.75)'
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)'
             }}
           >
-            {reel.title}
-          </h3> */}
-
-          {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
-            <span
-              style={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: '0.75rem',
-                color: '#9a9590',
-              }}
-            >
-              Playing on Portfolio
-            </span>
-            <a
-              href={reel.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline"
-              style={{
-                padding: '8px 16px',
-                fontSize: '0.7rem',
-                color: '#f5f0e8',
-                borderColor: 'rgba(245, 240, 232, 0.25)',
-                background: 'rgba(255, 255, 255, 0.05)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#c4623a'
-                e.currentTarget.style.borderColor = '#c4623a'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-                e.currentTarget.style.borderColor = 'rgba(245, 240, 232, 0.25)'
-              }}
-            >
-              Open on {reel.platform} ↗
-            </a>
-          </div> */}
+            Watch Reel
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
@@ -1569,8 +1551,7 @@ function Reels() {
       views: '45.2K',
       // Put your MP4 file or embed URL here:
       videoUrl: new URL('./imports/reel1.mp4', import.meta.url).href, 
-      previewImg: reel1,
-      link: 'https://www.instagram.com/reel/DV36vHqCAC3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+      link: 'https://www.tiktok.com/@brellss/video/7337647771161332998?_r=1&_t=ZS-98vmKzRq4dY',
     },
     {
       id: 'reel-2',
@@ -1580,8 +1561,7 @@ function Reels() {
       views: '28.6K',
       videoUrl: new URL('./imports/reel2.mp4', import.meta.url).href,
       // Direct Instagram cover thumbnail endpoint:
-      previewImg:reel2,
-      link: 'https://www.instagram.com/reel/DV36vHqCAC3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+      link: 'https://www.tiktok.com/@brellss/video/7621546160540781844?_r=1&_t=ZS-98vmE86FJxM',
     },
     {
       id: 'reel-3',
@@ -1591,17 +1571,16 @@ function Reels() {
       views: '84.1K',
       videoUrl: new URL('./imports/reel3.mp4', import.meta.url).href,
       previewImg: reel3,
-      link: 'https://www.tiktok.com/@brellss?_r=1&_t=ZS-96tvkepkei9',
+      link: 'https://www.tiktok.com/@yourtravelgirlie/photo/7506466802994810134?_r=1&_t=ZN-98vmTDczlY6',
     },
     {
       id: 'reel-4',
       title: '3 Marketing Frameworks Every Creator Needs',
       category: 'Brand Strategy',
-      platform: 'Instagram',
+      platform: 'TikTok',
       views: '19.4K',
       videoUrl: new URL('./imports/reel4.mp4', import.meta.url).href,
-      previewImg: reel4,
-      link: 'https://www.instagram.com/brellss?igsh=MXNwYjExb3I1c2wxeA%3D%3D&utm_source=qr',
+      link: 'https://www.tiktok.com/@yourtravelgirlie/video/7659742114791640342?_r=1&_t=ZN-98vmZRSgVeQ',
     },
   ]
 
@@ -1667,20 +1646,39 @@ function Reels() {
                 transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease',
               }}
             >
-              {/* Media Preview */}
-              <img
-                src={reel.previewImg}
-                alt={reel.title}
-                className="reel-img"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  opacity: 0.88,
-                  transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
-                }}
-              />
+              
+{reel.previewImg ? (
+  <img
+    src={reel.previewImg}
+    alt={reel.title}
+    className="reel-img"
+    style={{
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block',
+      opacity: 0.88,
+      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
+    }}
+  />
+) : (
+  <video
+    src={reel.videoUrl}
+    muted
+    playsInline
+    preload="metadata"
+    loop
+    className="reel-img"
+    style={{
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block',
+      opacity: 0.88,
+      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
+    }}
+  />
+)}
 
               {/* Gradient Overlays */}
               <div
@@ -1692,35 +1690,6 @@ function Reels() {
                 }}
               />
 
-              {/* Top Header Badge */}
-              {/* <div
-                style={{
-                  position: 'absolute',
-                  top: 18,
-                  left: 18,
-                  right: 18,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  zIndex: 2,
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "'Outfit', sans-serif",
-                    fontWeight: 600,
-                    fontSize: '0.68rem',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    padding: '4px 10px',
-                    background: 'rgba(245,240,232,0.9)',
-                    backdropFilter: 'blur(8px)',
-                    color: '#1a1815',
-                  }}
-                >
-                  {reel.platform}
-                </span>
-              </div> */}
 
               {/* Play Button Icon */}
               <div
@@ -1917,6 +1886,7 @@ function Contact() {
                   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/oyindamola-animashaun-416637175/' },
                   { label: 'Instagram', href: 'https://www.instagram.com/brellss?igsh=MXNwYjExb3I1c2wxeA%3D%3D&utm_source=qr' },
                   { label: 'TikTok', href: 'https://www.tiktok.com/@brellss?_r=1&_t=ZS-96tvkepkei9' },
+                  { label: 'Pinterest', href: 'https://pin.it/51Zvg86Jh' },
                 ].map(({ label, href }) => (
                   <a
                     key={label}
